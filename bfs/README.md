@@ -5,7 +5,7 @@
 3. shorted path in a simple graph 
 
 ## Complexity
-time complexity: O(n)
+time complexity: O(m+n) m: edge numbers; n nodes number
 space complexity: O(n)
 
 ## template 
