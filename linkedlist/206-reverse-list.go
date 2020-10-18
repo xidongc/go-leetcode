@@ -43,3 +43,33 @@ func reverseBetween(head *ListNode, m int, n int) *ListNode {
 
 	return dummyNode.Next
 }
+
+// 25 reverse nodes in k-group
+func reverseKGroup(head *ListNode, k int) *ListNode {
+	dummyNode := &ListNode{}
+	dummyNode.Next = head
+	start := dummyNode
+
+	for head != nil {
+		sentinel := head
+		for i := 0; i < k; i ++ {
+			if sentinel == nil {
+				start.Next = head
+				return dummyNode.Next
+			}
+			sentinel = sentinel.Next
+		}
+
+		first := head
+		prev := (*ListNode)(nil)
+		for i := 0; i < k; i ++ {
+			tmp := head.Next
+			head.Next = prev
+			prev = head
+			head = tmp
+		}
+		start.Next = prev
+		start = first
+	}
+	return dummyNode.Next
+}
