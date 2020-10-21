@@ -47,11 +47,16 @@ func jump(nums []int) int {
 	return dp[len(dp)-1]
 }
 
-func min(a, b int) int {
-	if a <= b {
-		return a
+func min(a... int) int {
+	size := len(a)
+	if size == 0 {
+		panic("input size equals to zero") // input illegal
 	}
-	return b
+	minVal := a[0]
+	for i := 1; i < size; i ++ {
+		if a[i] < minVal  {
+			minVal = a[i]
+		}
+	}
+	return minVal
 }
-
-

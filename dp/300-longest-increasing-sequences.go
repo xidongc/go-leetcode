@@ -26,11 +26,18 @@ func lengthOfLIS(nums []int) int {
 	return lis
 }
 
-func max(a, b int) int {
-	if a <= b {
-		return b
+func max(a... int) int {
+	size := len(a)
+	if size == 0 {
+		panic("input size equals to zero")// input illegal
 	}
-	return a
+	maxVal := a[0]
+	for i := 1; i < size; i ++ {
+		if a[i] > maxVal  {
+			maxVal = a[i]
+		}
+	}
+	return maxVal
 }
 
 // 673 number of lis
