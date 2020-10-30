@@ -3,6 +3,7 @@ package main
 import (
 	"math"
 	"sort"
+	"strconv"
 )
 
 // 1 two sum: O(n) with hashMap
@@ -88,4 +89,64 @@ func threeSumClosest(nums []int, target int) int {
 		i ++
 	}
 	return result
+}
+
+// 18 four sum: using hash map
+type Index struct {
+	i int
+	j int
+}
+
+func fourSum(nums []int, target int) [][]int {
+	hashmap := map[int][]Index{}
+	for i := 0; i < len(nums) - 1; i ++ {
+		for j := i+1; j < len(nums); j ++ {
+			if _, exist := hashmap[nums[i]+nums[j]]; exist {
+				hashmap[nums[i]+nums[j]] = append(hashmap[nums[i]+nums[j]], Index{
+					i: i,
+					j: j,
+				})
+			} else {
+				hashmap[nums[i]+nums[j]] = []Index{
+					{
+						i: i,
+						j: j,
+					},
+				}
+			}
+		}
+	}
+
+	result := make([][]int, 0)
+	hashSet := map[string]struct{}{}
+
+	for i := 0; i < len(nums) - 1; i ++ {
+		for j := i+1; j < len(nums); j ++ {
+			if val, exist := hashmap[target-nums[i]-nums[j]]; exist {
+				for _, v := range val {
+					if i != v.i && j != v.j && i != v.j && j != v.i {
+						tmp := []int{nums[i], nums[j], nums[v.i], nums[v.j]}
+						sort.Ints(tmp)
+						hashCode := toStr(tmp)
+						if _, exist := hashSet[hashCode]; !exist {
+							result = append(result, tmp)
+							hashSet[hashCode] = struct{}{}
+						}
+					}
+				}
+			}
+		}
+	}
+	return result
+}
+
+func toStr(arr []int) string {
+	s := ""
+	for i, ele := range arr {
+		s += strconv.Itoa(ele)
+		for j := 0; j < i; j ++ {
+			s += "a"
+		}
+	}
+	return s
 }
