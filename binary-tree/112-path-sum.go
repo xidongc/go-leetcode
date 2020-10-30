@@ -1,5 +1,10 @@
 package main
 
+import (
+	"github.com/xidongc/go-leetcode/utils"
+	"math"
+)
+
 // Definition for a binary tree node.
 type TreeNode struct {
 	Val int
@@ -67,4 +72,53 @@ func PathSumHelper(root *TreeNode, value int) [][]int {
 		}
 	}
 	return sequence
+}
+
+// 437 path sum III: using two way dfs
+func pathSumIII(root *TreeNode, sum int) int {
+	if root == nil {
+		return 0
+	}
+	return pathSumIII(root.Left, sum) + pathSumIII(root.Right, sum) + pathSumHelper(root, sum)
+}
+
+// count starting from root, helper func
+func pathSumHelper(root *TreeNode, sum int) int {
+	if root == nil {
+		return 0
+	}
+	count := 0
+	if sum == root.Val {
+		count += 1
+	}
+	left := pathSumHelper(root.Left, sum - root.Val)
+	right := pathSumHelper(root.Right, sum - root.Val)
+	return left + right + count
+}
+
+// 124 binary tree max path sum: using two way dfs
+func maxPathSum(root *utils.TreeNode) int {
+	if root == nil {
+		return math.MinInt64
+	}
+	maxPath := root.Val
+
+	singleLeft := singlePath(root.Left)
+	singleRight := singlePath(root.Right)
+	if singleLeft > 0 {
+		maxPath += singleLeft
+	}
+	if singleRight > 0 {
+		maxPath += singleRight
+	}
+	maxPath = utils.Max(maxPath, maxPathSum(root.Left), maxPathSum(root.Right))
+	return maxPath
+}
+
+// count singePath max Val
+func singlePath(root *utils.TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	return utils.Max(singlePath(root.Left) + root.Val, singlePath(root.Right) + root.Val, root.Val)
 }
