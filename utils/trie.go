@@ -31,7 +31,10 @@ func (root *TrieNode) Insert(s string) {
 
 	current := root
 	for _, ele := range s {
-		current.nodes[ele-'a'] = &TrieNode{}
+		// previously forget to verify == situation led 676 failed
+		if current.nodes[ele-'a'] == nil {
+			current.nodes[ele-'a'] = &TrieNode{}
+		}
 		current = current.nodes[ele-'a']
 	}
 	current.isEnd = true
