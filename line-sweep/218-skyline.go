@@ -8,7 +8,11 @@ import (
 	"strconv"
 )
 
-// 218 skyline, not passed due to some corner case, using hash heap with index
+// 218 skyline, using hash heap with index
+// following are special test case
+// skyline := [][]int{{2, 9, 10}, {3, 7, 15}, {5, 12, 12}, {15, 20, 10}, {19, 24, 8}}
+// skyline := [][]int{{0,2,3},{2,5,3}}
+// skyline := [][]int{{2,4,7},{2,4,5},{2,4,6}}
 type Position struct {
 	pos int
 	height int
@@ -30,9 +34,11 @@ func (s SkylineHeap) Less(i, j int) bool {
 	if s[i].pos < s[j].pos {
 		return true
 	} else if s[i].pos == s[j].pos {
-		if s[i].height > s[j].height {
-			return true
-		} else if s[i].height == s[j].height {
+		if s[i].isEnd == false && s[j].isEnd == false {
+			return s[j].height  < s[i].height
+		} else if s[i].isEnd == true && s[j].isEnd == true {
+			return s[i].height  < s[j].height
+		} else {
 			return s[i].isEnd == false
 		}
 	}
@@ -48,6 +54,12 @@ func (s Skyline) Len() int {
 	return len(s.heap)
 }
 
+func (s *Skyline) Front() *Element {
+	ele := heap.Pop(s)
+	heap.Push(s, ele)
+	return ele.(*Element)
+}
+
 func (s Skyline) Swap(i, j int) {
 	tmp := s.hash[s.heap[i].Hash()]
 	s.hash[s.heap[i].Hash()] = s.hash[s.heap[j].Hash()]
@@ -56,7 +68,7 @@ func (s Skyline) Swap(i, j int) {
 }
 
 func (s Skyline) Less(i, j int) bool {
-	if s.heap[i].height < s.heap[j].height {
+	if s.heap[i].height > s.heap[j].height {
 		return true
 	}
 	return false
@@ -105,16 +117,17 @@ func getSkyline(buildings [][]int) [][]int {
 	for i := 0; i < len(h); i ++ {
 		if h[i].isEnd == false {
 			heap.Push(&skyline, &Element{h[i].index, h[i].height})
-			if skyline.heap[skyline.Len()-1].height > highest {
-				result = append(result, []int{h[i].pos, skyline.heap[skyline.Len()-1].height})
-				highest = skyline.heap[skyline.Len()-1].height
+			if skyline.Front().height > highest {
+				result = append(result, []int{h[i].pos, skyline.Front().height})
+				highest = skyline.Front().height
 			}
 		} else {
 			skyline.Remove(&Element{ h[i].index, h[i].height})
 			if skyline.Len() > 0 {
-				if skyline.heap[skyline.Len()-1].height < highest {
-					result = append(result, []int{h[i].pos, skyline.heap[skyline.Len()-1].height})
-					highest = skyline.heap[skyline.Len()-1].height
+				fmt.Println(skyline.Front().height, highest)
+				if skyline.Front().height < highest {
+					result = append(result, []int{h[i].pos, skyline.Front().height})
+					highest = skyline.Front().height
 				}
 			} else {
 				result = append(result, []int{h[i].pos, 0})
@@ -132,12 +145,4 @@ type Element struct {
 
 func (ele *Element) Hash() string {
 	return "s" + strconv.Itoa(ele.index) + "ss" + strconv.Itoa(ele.height)
-}
-
-func main() {
-	// [ [2 10], [3 15], [7 12], [12 0], [15 10], [20 8], [24, 0] ]
-	// skyline2 := [][]int{{2, 9, 10}, {3, 7, 15}, {5, 12, 12}, {15, 20, 10}, {19, 24, 8}}
-	// skyline2 := [][]int{{0,2,3},{2,5,3}}
-	skyline2 := [][]int{{2,4,7},{2,4,5},{2,4,6}}
-	fmt.Println(getSkyline(skyline2))
 }
