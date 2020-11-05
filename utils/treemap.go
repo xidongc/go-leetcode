@@ -54,7 +54,7 @@ func (s *TreeMap) Less(i, j int) bool {
 
 func (s *TreeMap) Push(ele interface{}) {
 	(*s).heap = append((*s).heap, ele.(*Element))
-	(*s).hash[ele.(*Element).Hash()] = s.Len()-1
+	(*s).hash[ele.(*Element).Hash()] = (*s).Len()-1
 }
 
 func (s *TreeMap) Pop() interface{} {

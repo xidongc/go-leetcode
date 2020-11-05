@@ -5,14 +5,7 @@ import (
 	"fmt"
 )
 
-func main() {
-	fmt.Println("start program... ")
-	nums := []int{1,3,-1,-3,5,3,6,7}
-	k := 3
-	fmt.Println(maxSlidingWindow(nums, k))
-	// [3,3,5,5,6,7]
-}
-
+// 293 max sliding window: using hash heap, refer utils/treemap.go
 type SWHeap struct {
 	ele 	 []*Ele
 	hash     map[int]int
@@ -65,7 +58,6 @@ func (s *SWHeap) Remove(index int) {
 	}
 }
 
-// max sliding window: using hash heap
 func maxSlidingWindow(nums []int, k int) []int {
 	if len(nums) < k {
 		return []int{}
