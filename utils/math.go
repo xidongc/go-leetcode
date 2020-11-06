@@ -1,5 +1,7 @@
 package utils
 
+import "math"
+
 func Max(a... int) int {
 	size := len(a)
 	if size == 0 {
@@ -26,4 +28,8 @@ func Min(a... int) int {
 		}
 	}
 	return minVal
+}
+
+func Abs(a int) int {
+	return int(math.Abs(float64(a)))
 }
