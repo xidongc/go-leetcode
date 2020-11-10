@@ -3,8 +3,8 @@ package main
 import "fmt"
 
 // dp[i][j] = OR((dp[i-1][j] && s1[i-1] == s3[i+j-1]), (dp[i][j-1] && s2[j-1] == s3[i+j-1]))
-// dp[0][j] = s2[j] == s3[j]
-// dp[i][0] = s1[i] == s3[i]
+// dp[0][j] = s2[j] == s3[j] && dp[0][j-1]
+// dp[i][0] = s1[i] == s3[i] && dp[i-1][0]
 func isInterleave(s1 string, s2 string, s3 string) bool {
 	if len(s3) != len(s1) + len(s2) {
 		return false
@@ -17,18 +17,16 @@ func isInterleave(s1 string, s2 string, s3 string) bool {
 		dp = append(dp, tmp)
 	}
 
-	if len(s3) == 0 {
-		dp[0][0] = true
-	}
+	dp[0][0] = true
 
 	for i := 1; i <= len(s1); i ++ {
-		if s1[i-1] == s3[i-1] {
+		if s1[i-1] == s3[i-1] && dp[i-1][0]{
 			dp[i][0] = true
 		}
 	}
 
 	for j := 1; j <= len(s2); j ++ {
-		if s2[j-1] == s3[j-1] {
+		if s2[j-1] == s3[j-1] && dp[0][j-1] {
 			dp[0][j] = true
 		}
 	}
