@@ -1,5 +1,11 @@
 # bfs
 
+## data structure 
+queue: 
+O(1) Push
+O(1) Pop
+O(1) Top
+
 1. find connected graph via a node (floodfill algorithm)
 2. topological sort 
 3. shorted path in a simple graph 
