@@ -1,9 +1,23 @@
 # dynamic programming 
 
+1. coordinate dp eg: maximal square 
+2. sequence dp: f[i] means pre i ele, eg: word break II 
+3. double sequence dp:d[i][j] means rel pre i ele in str1 and pre j ele in str2, eg: 44 wildcard match
+4. range dp eg: palindrome pre-calculate
+5. game theory dp: dp[i] means status when i ele left eg: coins in a line
+
+```gotemplate
+for length := 2; length < size; length ++ {
+    for start := 0; start + length < size; start ++ {
+    	dp[start][start+length] = ...
+    }
+}
+```
+
 ## dp **_vs_** memorized dfs 
 turn dp into a dfs memorization process eg: 44 wildcard matching 
 
-```go
+```gotemplate
 func isMatch(s string, p string) bool { 
     return dfs_helper(len(s), len(p), s, p, map[[2]int]bool{})
 }
@@ -38,15 +52,7 @@ func dfs_helper(i, j int, s string, p string, memo map[[2]int]bool) bool {
     return false
 } 
 ```
+memorized dfs can't use space complexity optimization below
 
-## range 
-eg: palindrome pre-calculate
-```go
-dp[i][i]
-dp[i][i+1]
-for length := 2; length < size; i ++ {
-    for start := 0; start + length < size; start ++ {
-    	dp[i][j] = ...
-    }
-}
-```
+## optimize space complexity 
+1. if f[i] only has rel with f[i-1] then replace with f[i%2], f[(i-1)%2]
