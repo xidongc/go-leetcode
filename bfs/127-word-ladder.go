@@ -4,7 +4,31 @@ import (
 	"container/list"
 )
 
-// 127 word ladder I, use bfs level traversal as we only care about shortest path number
+/*
+	127 word ladder I
+	A transformation sequence from word beginWord to word endWord using a dictionary wordList is a sequence of words such that:
+
+	The first word in the sequence is beginWord.
+	The last word in the sequence is endWord.
+	Only one letter is different between each adjacent pair of words in the sequence.
+	Every word in the sequence is in wordList.
+	Given two words, beginWord and endWord, and a dictionary wordList, return the number of words in the shortest transformation
+	sequence from beginWord to endWord, or 0 if no such sequence exists.
+
+	basically it is shortest path in a graph, use bfs level traversal
+	iterate word with one letter differ from a-z, and determine if it is in wordDict
+	turn wordDict into hashSet first, for O(1) find
+
+Example 1:
+Input: beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"]
+Output: 5
+Explanation: One shortest transformation is "hit" -> "hot" -> "dot" -> "dog" -> "cog" with 5 words.
+
+Example 2:
+Input: beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log"]
+Output: 0
+Explanation: The endWord "cog" is not in wordList, therefore there is no possible transformation.
+*/
 func ladderLength(beginWord string, endWord string, wordList []string) int {
 	if len(wordList) == 0 {
 		return 0
@@ -67,7 +91,46 @@ func containsStr(dict map[string]struct{}, target string) bool {
 	return exist
 }
 
-// 126 WordLadderII bfs to find depth, dfs to recursively find all paths
+/*
+	126 WordLadderII
+	Given two words (beginWord and endWord), and a dictionary's word list, find all shortest transformation
+	sequence(s) from beginWord to endWord, such that:
+
+	Only one letter can be changed at a time
+	Each transformed word must exist in the word list. Note that beginWord is not a transformed word.
+	Note:
+
+	Return an empty list if there is no such transformation sequence.
+	All words have the same length.
+	All words contain only lowercase alphabetic characters.
+	You may assume no duplicates in the word list.
+	You may assume beginWord and endWord are non-empty and are not the same.
+
+	using bfs to find depth, and get node -> depth relationship, using dfs to recursively
+	find all paths with the rel got from bfs result
+
+Example 1:
+Input:
+beginWord = "hit",
+endWord = "cog",
+wordList = ["hot","dot","dog","lot","log","cog"]
+
+Output:
+[
+  ["hit","hot","dot","dog","cog"],
+  ["hit","hot","lot","log","cog"]
+]
+
+Example 2:
+Input:
+beginWord = "hit"
+endWord = "cog"
+wordList = ["hot","dot","dog","lot","log"]
+
+Output: []
+
+Explanation: The endWord "cog" is not in wordList, therefore no possible transformation.
+*/
 func findLadders(beginWord string, endWord string, wordList []string) [][]string {
 	var dict = make(map[string]struct{}, 0)
 	for _, dictWord := range wordList {
