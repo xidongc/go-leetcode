@@ -1,10 +1,10 @@
 package main
 
-import "fmt"
-
-// dp[i][j] = OR((dp[i-1][j] && s1[i-1] == s3[i+j-1]), (dp[i][j-1] && s2[j-1] == s3[i+j-1]))
-// dp[0][j] = s2[j] == s3[j] && dp[0][j-1]
-// dp[i][0] = s1[i] == s3[i] && dp[i-1][0]
+/*
+	dp[i][j] = (dp[i-1][j] && str1[i-1] == str3[i+j-1]) OR (dp[i][j-1] && str2[j-1] == str3[i+j-1])
+	dp[0][j] = s2[j] == s3[j] && dp[0][j-1]
+    dp[i][0] = s1[i] == s3[i] && dp[i-1][0]
+*/
 func isInterleave(s1 string, s2 string, s3 string) bool {
 	if len(s3) != len(s1) + len(s2) {
 		return false
@@ -39,11 +39,4 @@ func isInterleave(s1 string, s2 string, s3 string) bool {
 		}
 	}
 	return dp[len(s1)][len(s2)]
-}
-
-func main() {
-	s1 := "db"
-	s2 := "b"
-	s3 := "cbb"
-	fmt.Println(isInterleave(s1, s2, s3))
 }

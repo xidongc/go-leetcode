@@ -1,15 +1,18 @@
 package main
 
+import "github.com/xidongc/go-leetcode/utils"
+
 /*
 	72 Edit Distance
-	Given two strings word1 and word2, return the minimum number of operations required to convert word1 to word2.
+	Given two strings word1 and word2, return the minimum number
+	of operations required to convert word1 to word2.
 	You have the following three operations permitted on a word:
 	Insert a character
 	Delete a character
 	Replace a character
 
-	dp[i][j] = min(dp[i-1][j-1], dp[i][j-1] + 1, dp[i-1][j] + 1 if word[i] == word2[j]
-	dp[i][j] = min(dp[i-1][j-1] + 1, dp[i][j-1] + 1, dp[i-1][j] + 1 if word[i] != word2[j]
+	dp[i][j] = min(dp[i-1][j-1], dp[i][j-1] + 1, dp[i-1][j] + 1) if word1[i] == word2[j]
+	dp[i][j] = min(dp[i-1][j-1] + 1, dp[i][j-1] + 1, dp[i-1][j] + 1) if word1[i] != word2[j]
 	double sequence dp
 
 Example 1:
@@ -48,9 +51,9 @@ func minDistance(word1 string, word2 string) int {
 	for i := 1; i <= len(word1); i ++ {
 		for j := 1; j <= len(word2); j ++ {
 			if word1[i-1] == word2[j-1] {
-				dp[i][j] = min(dp[i-1][j-1], dp[i][j-1] + 1, dp[i-1][j] + 1)
+				dp[i][j] = utils.Min(dp[i-1][j-1], dp[i][j-1] + 1, dp[i-1][j] + 1)
 			} else{
-				dp[i][j] = min(dp[i-1][j-1] + 1, dp[i][j-1] + 1, dp[i-1][j] + 1)
+				dp[i][j] = utils.Min(dp[i-1][j-1] + 1, dp[i][j-1] + 1, dp[i-1][j] + 1)
 			}
 		}
 	}

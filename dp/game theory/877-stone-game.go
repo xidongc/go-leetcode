@@ -10,7 +10,7 @@ import (
 // game dp + interval dp, O(n^2) although it can be solved by simply "return true",
 // suggest use dp as a common solution to solve this kinds of problem
 // win condition: dp[0][len(piles)-1] > half
-func stoneGame(piles []int)bool {
+func stoneGame(piles []int) bool {
 	dp := make([][]int, 0)
 	sum := 0
 	for i := 0; i < len(piles); i ++ {
